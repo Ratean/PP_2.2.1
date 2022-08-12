@@ -31,7 +31,10 @@ public class UserDaoImp implements UserDao {
    @Override
    public User getUserByCarSeriesAndModel(int series, String model) {
       Query query = sessionFactory.getCurrentSession().createQuery("from User as u inner join fetch u.car as c where " +
-              "c.series = " + series + " and c.model = " + "'" + model + "'");
+              "c.series =:series and c.model =:model");
+      query.setParameter("series", series);
+      query.setParameter("model", model);
+
       List<User> list = query.list();
       return list.get(0);
    }
